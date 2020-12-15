@@ -11,8 +11,16 @@ const io = require('socket.io')(server);
 //desplegar el directorio public
 app.use(express.static( __dirname + '/public'));
 //conexion
-io.on('connection', () => {
-    console.log('cliente conectado!');
+io.on('connection', (socket) => {
+    
+    socket.emit('mensaje de bienvenida', {
+        msg: 'Bienvenido al server',
+        fehca: new Date()
+    });
+
+    socket.on('mensaje-cliente', ( data ) => {
+        console.log(data);
+    });
 });
 server.listen(8080, () => {
     console.log('Servidor corriendo en puerto: 8080');
